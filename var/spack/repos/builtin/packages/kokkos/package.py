@@ -62,6 +62,9 @@ class Kokkos(CMakePackage, CudaPackage, ROCmPackage):
     conflicts("@:3.5 +sycl", when="%dpcpp@2022:")
     conflicts("@:3.5 +sycl", when="%oneapi@2022:")
 
+    patch('adapt-kokkos-for-nix.patch')
+    patch('adapt-kokkos-for-hpx.patch')
+
     tpls_variants = {
         "hpx": [False, "Whether to enable the HPX library"],
         "hwloc": [False, "Whether to enable the HWLOC library"],
@@ -314,6 +317,7 @@ class Kokkos(CMakePackage, CudaPackage, ROCmPackage):
         for arch in spack_microarches:
             options.append(self.define("Kokkos_ARCH_" + arch.upper(), True))
 
+        options.append(self.define("Kokkos_ENABLE_LIBDL", False))
         self.append_args("ENABLE", self.devices_values, options)
         self.append_args("ENABLE", self.options_values, options)
         self.append_args("ENABLE", self.tpls_values, options)
