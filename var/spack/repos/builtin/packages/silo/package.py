@@ -46,6 +46,7 @@ class Silo(AutotoolsPackage):
     variant("hzip", default=True, description="Enable hzip support")
     variant("fpzip", default=True, description="Enable fpzip support")
 
+    depends_on("perl", type="build")
     depends_on("m4", type="build", when="+shared")
     depends_on("autoconf", type="build", when="+shared")
     depends_on("autoconf-archive", type="build", when="+shared")
@@ -61,6 +62,7 @@ class Silo(AutotoolsPackage):
     depends_on("readline")
     depends_on("zlib")
 
+    patch("perl.patch")
     patch("remove-mpiposix.patch", when="@4.8:4.10.2")
 
     # hdf5 1.10 added an additional field to the H5FD_class_t struct
