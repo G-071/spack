@@ -25,6 +25,8 @@ pkgs.stdenv.mkDerivation rec {
 
     unzip
     git
+    tig
+    htop
 
     cudatoolkit linuxPackages.nvidia_x11
     libGLU libGL
