@@ -16,7 +16,7 @@ class Procps(AutotoolsPackage):
     git = "https://gitlab.com/procps-ng/procps.git"
 
     version("master", branch="master")
-    version("3.3.15", tag="v3.3.15")
+    version("3.3.15", tag="v3.3.15", commit="7bb949bcba13c107fa0f45d2d0298b1ad6b6d6cc")
 
     variant("nls", default=True, description="Enable Native Language Support.")
 
@@ -27,21 +27,19 @@ class Procps(AutotoolsPackage):
     depends_on("pkgconfig@0.9.0:", type="build")
     depends_on("dejagnu", type="test")
     depends_on("iconv")
+    depends_on("gettext", type="build")
     depends_on("gettext", when="+nls")
     depends_on("ncurses")
 
     conflicts("platform=darwin", msg="procps is linux-only")
 
+    # Need to tell the build to use the tools it already has to find
+    # libintl (if appropriate).
+    patch("libintl.patch")
+
     def autoreconf(self, spec, prefix):
         sh = which("sh")
         sh("autogen.sh")
-
-    def flag_handler(self, name, flags):
-        if name == "ldlibs":
-            spec = self.spec
-            if "+nls" in spec and "intl" in spec["gettext"].libs.names:
-                flags.append("-lintl")
-        return self.build_system_flags(name, flags)
 
     def configure_args(self):
         spec = self.spec
