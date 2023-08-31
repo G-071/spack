@@ -16,8 +16,6 @@ pkgs.stdenv.mkDerivation rec {
     gfortran11
     gfortran11.cc.lib
 
-    llvmPackages_12.libcxxClang
-
     # external packages to pass to spack
     perl
     openjdk11_headless
