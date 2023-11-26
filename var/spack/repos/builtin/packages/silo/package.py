@@ -75,7 +75,6 @@ class Silo(AutotoolsPackage):
     depends_on("readline")
     depends_on("zlib-api")
 
-    patch("perl.patch")
     patch("remove-mpiposix.patch", when="@4.8:4.10.2")
 
     # hdf5 1.10 added an additional field to the H5FD_class_t struct
