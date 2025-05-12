@@ -653,19 +653,20 @@ class Python(Package):
         link_deps = spec.dependencies(deptype="link")
 
         if link_deps:
+            pass
             # Header files are often included assuming they reside in a
             # subdirectory of prefix.include, e.g. #include <openssl/ssl.h>,
             # which is why we don't use HeaderList here. The header files of
             # libffi reside in prefix.lib but the configure script of Python
             # finds them using pkg-config.
-            cppflags = " ".join("-I" + spec[dep.name].prefix.include for dep in link_deps)
+            # cppflags = " ".join("-I" + spec[dep.name].prefix.include for dep in link_deps)
 
             # Currently, the only way to get SpecBuildInterface wrappers of the
             # dependencies (which we need to get their 'libs') is to get them
             # using spec.__getitem__.
-            ldflags = " ".join(spec[dep.name].libs.search_flags for dep in link_deps)
+            # ldflags = " ".join(spec[dep.name].libs.search_flags for dep in link_deps)
 
-            config_args.extend(["CPPFLAGS=" + cppflags, "LDFLAGS=" + ldflags])
+            # config_args.extend(["CPPFLAGS=" + cppflags, "LDFLAGS=" + ldflags])
 
         if "+optimizations" in spec:
             config_args.append("--enable-optimizations")
